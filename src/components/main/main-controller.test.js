@@ -1,28 +1,24 @@
 'use strict';
-
-import main from './index';
+/* beautify preserve:start */
+import 'chai';
+import {expect} from 'chai';
+import MainController from './main-controller';
+/* beautify preserve:end */
 
 describe('MainController', () => {
-  let $controller;
-
-  beforeEach(angular.mock.module(main));
-
-  beforeEach(angular.mock.inject((_$controller_) => {
-    $controller = _$controller_;
-  }));
 
   it('should default randomNumber to null', () => {
-    let ctrl = $controller('MainController');
+    let ctrl = new MainController();
     expect(ctrl.randomNumber).to.equal(null);
   });
 
   it('should contain a  generateNumber', () => {
-    let ctrl = $controller('MainController');
+    let ctrl = new MainController();
     expect(ctrl.generateNumber).to.be.defined;
   });
 
   it('should generate a random number', () => {
-    let ctrl = $controller('MainController');
+    let ctrl = new MainController();
     ctrl.generateNumber();
     expect(ctrl.randomNumber).to.not.equal(null);
   });

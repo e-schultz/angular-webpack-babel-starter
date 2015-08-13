@@ -2,7 +2,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
-var autoprefixer = require('autoprefixer-core');
+// var autoprefixer = require('autoprefixer-core');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -29,25 +29,25 @@ module.exports = function makeWebpackConfig(options) {
    * Entry Config
    */
   if (TEST) {
-    config.entry = {}
+    config.entry = {};
   } else {
     config.entry = {
       app: './src/app.js'
-    }
+    };
   }
 
   /**
    * Output Config
    */
   if (TEST) {
-    config.output = {}
+    config.output = {};
   } else {
     config.output = {
       path: __dirname + '/dist',
       publicPath: BUILD ? '/' : 'http://localhost:8080/',
       filename: BUILD ? '[name].[hash].js' : '[name].bundle.js',
       chunkFilename: BUILD ? '[name].[hash].js' : '[name].bundle.js'
-    }
+    };
   }
 
   /**
@@ -71,66 +71,61 @@ module.exports = function makeWebpackConfig(options) {
    */
   config.module = {
     preLoaders: [],
-    loaders: [
-      {
-        /**
-         * JS LOADER
-         * Reference: https://github.com/babel/babel-loader
-         * Transpile .js files using babel-loader
-         * Compiles ES6 and ES7 into ES5 code
-         */
-        test: /\.js$/,
-        loaders: [
-          'babel?optional=runtime',
-          'ng-annotate'
-        ],
-        exclude: /node_modules/
-      },
-      {
-        /**
-         * ASSET LOADER
-         * Reference: https://github.com/webpack/file-loader
-         * Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
-         * Rename the file using the asset hash
-         * Pass along the updated reference to your code
-         * You can add here any file extension you want to get copied to your output
-         */
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-        loader: 'file'
-      },
-      {
-        // HTML LOADER
-        // Reference: https://github.com/webpack/raw-loader
-        // Allow loading html through js
-        test: /\.html$/,
-        loader: 'raw'
-      },
-      {
-        // SASS LOADER
-        // Reference: https://github.com/jtangelder/sass-loader
-        // Allow loading scss through js
-        test: /\.scss$/,
-        loader: !TEST ?
-          ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')) : 'null',
-      }
-    ]
+    loaders: [{
+      /**
+       * JS LOADER
+       * Reference: https://github.com/babel/babel-loader
+       * Transpile .js files using babel-loader
+       * Compiles ES6 and ES7 into ES5 code
+       */
+      test: /\.js$/,
+      loaders: [
+        'babel?optional=runtime',
+        'ng-annotate'
+      ],
+      exclude: /node_modules/
+    }, {
+      /**
+       * ASSET LOADER
+       * Reference: https://github.com/webpack/file-loader
+       * Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
+       * Rename the file using the asset hash
+       * Pass along the updated reference to your code
+       * You can add here any file extension you want to get copied to your output
+       */
+      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+      loader: 'file'
+    }, {
+      // HTML LOADER
+      // Reference: https://github.com/webpack/raw-loader
+      // Allow loading html through js
+      test: /\.html$/,
+      loader: 'raw'
+    }, {
+      // SASS LOADER
+      // Reference: https://github.com/jtangelder/sass-loader
+      // Allow loading scss through js
+      test: /\.scss$/,
+      loader: !TEST ?
+        ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')) : 'null',
+    }]
   };
 
- if (TEST) {    
-  
-   // ISPARTA LOADER    
-   // Reference: https://github.com/ColCh/isparta-instrumenter-loader   
-   // Instrument JS files with Isparta for subsequent code coverage reporting   
-   // Skips node_modules and files that end with .test.js   
-   config.module.preLoaders.push({    
-     test: /\.js$/,   
-     exclude: [   
-       /node_modules/,    
-       /\.test\.js$/    
-     ],   
-     loader: 'isparta-instrumenter'   
-   });    
- }
+  if (TEST) {
+
+    // ISPARTA LOADER    
+    // Reference: https://github.com/ColCh/isparta-instrumenter-loader   
+    // Instrument JS files with Isparta for subsequent code coverage reporting   
+    // Skips node_modules and files that end with .test.js   
+    config.module.preLoaders.push({
+      test: /\.js$/,
+      exclude: [
+        /node_modules/,
+        /\.test\.js$/
+      ],
+      loader: 'isparta-instrumenter'
+    });
+  }
 
   if (!TEST) {
     config.module.preLoaders.push({
@@ -169,7 +164,7 @@ module.exports = function makeWebpackConfig(options) {
         inject: 'body',
         minify: BUILD
       })
-    )
+    );
   }
 
   // Add build specific plugins
@@ -186,7 +181,7 @@ module.exports = function makeWebpackConfig(options) {
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
       // Minify all javascript, switch loaders to minimizing mode
       new webpack.optimize.UglifyJsPlugin()
-    )
+    );
   }
 
   /**
@@ -206,4 +201,3 @@ module.exports = function makeWebpackConfig(options) {
 
   return config;
 };
-
