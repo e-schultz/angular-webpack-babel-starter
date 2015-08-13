@@ -1,0 +1,8 @@
+node_modules/*
+dist/*
+build/*
+*.test.js
+gulp/*
+src/tests.webpack.js
+webpack.*.js
+karma.conf.js
